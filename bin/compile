@@ -5,6 +5,10 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 
+# Emulate building in /app
+cp -r "${BUILD_DIR}"/* /app
+BUILD_DIR=/app
+
 if [ -f $ENV_DIR/PROJECT_PATH ]; then
 	PROJECT_PATH=`cat $ENV_DIR/PROJECT_PATH`
 	if [ -d $BUILD_DIR/$PROJECT_PATH ]; then
@@ -23,6 +27,7 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 		cp -R $TMP_DIR/. $BUILD_DIR/
 		echo "       cleaning tmp dir $TMP_DIR"
 		rm -rf $TMP_DIR
+		ls -al $BUILD_DIR
 		exit 0
 	fi
 fi
